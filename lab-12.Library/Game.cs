@@ -20,4 +20,19 @@ public class Game
             return !player1CanPlay && !player2CanPlay;
         }
     }
+    public bool IsGameOver
+    {
+        get
+        {
+            if (PlayerOne.Tiles.Count() == 0 || PlayerTwo.Tiles.Count() == 0 || NoOneCanPlay == true)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
 }
