@@ -56,4 +56,34 @@ public class UnitTest1
         game.IsPlayable.Should().BeTrue();
         
     }
+    [Fact]
+    public void PlayATile()
+    {
+        // Given
+        Game game = new Game();
+        game.Join(new Player("P1"));
+        game.Join(new Player("P2"));
+        var tileToPlay = new Tile(1, game.Board.First().Num1);
+        game.PlayerOne!.Tiles.Add(tileToPlay);
+        // When
+        game.PlayTile(game.PlayerOne, tileToPlay);
+        // Then
+         game.Board.Count().Should().Be(2);
+         game.Board.Last().Should().BeEquivalentTo(tileToPlay);
+    }  
+    [Fact]
+    public void TryToPlayATileYouDontHave()
+    {
+        // Given
+        Game game = new Game();
+        game.Join(new Player("P1"));
+        game.Join(new Player("P2"));
+        var tileToPlay = new Tile(1, game.Board.First().Num1);
+         game.Board.Count().Should().Be(1);
+        
+        // When
+    FluentActions.Invoking(()=> game.PlayTile(game.PlayerOne, tileToPlay)).Should().Throw<InvalidMoveException>();
+        // Then
+         game.Board.Last().Should().BeEquivalentTo(tileToPlay);
+    }  
 }
