@@ -22,4 +22,38 @@ public class UnitTest1
         // Assert
         result.Should().BeFalse();
     }
+    [Fact]
+    public void GameNotPlayableWith1Player()
+    {
+        // Given
+        Game game = new Game();
+        // When
+        game.Join(new Player("P1"));
+        // Then
+        game.IsPlayable.Should().BeFalse();
+    }
+    [Fact]
+    public void GameNotPlayableWith2Player()
+    {
+        // Given
+        Game game = new Game();
+        // When
+        game.Join(new Player("P1"));
+        game.Join(new Player("P2"));
+        // Then
+        game.IsPlayable.Should().BeTrue();
+    }
+    [Fact]
+    public void GameNotPlayableWith3Player()
+    {
+        // Given
+        Game game = new Game();
+        // When
+        game.Join(new Player("P1"));
+        game.Join(new Player("P2"));
+        FluentActions.Invoking(()=> game.Join(new Player("P3"))).Should().Throw<GameFullException>();
+        // Then
+        game.IsPlayable.Should().BeTrue();
+        
+    }
 }
