@@ -1,7 +1,26 @@
 ﻿@page "/"
+@using TheGame
+@inject NavigationManager navManager
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
+@if(Game.Instance.PlayerTwo is null)
+{
+   <input @bind=newPlayerName placeholder="Your Name" />
+   <button @onclick=joinGame>Join Game</button>
+}
+else
+{
+   <p>Sorry, looks like the game is full</p>
+   <p>@Game.Instance.PlayerOne?.Name is already playing @Game.Instance.PlayerTwo.Name</p>
+}
 
-Welcome to your new app.
+@code {
+    string newPlayerName;
+
+    void joinGame() {
+        Game.Instance.Join(new Library.Player(newPlayerName));
+        navManager.NavigateTo($"/play?playername={newPlayerName}");
+    }
+}

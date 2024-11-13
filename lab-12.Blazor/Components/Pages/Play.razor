@@ -1,0 +1,42 @@
+@page "/play"
+@inject NavigationManager navManager
+@using TheGame
+@using lab_12.Library
+
+@if (me is null)
+{
+   <div>There is no player @PlayerName</div>
+}
+else if(game.IsGameOver)
+{
+   <h3>Game Over</h3>
+}
+else //we're playing
+{
+   <h3>Play for @me.Name</h3>    
+}   
+
+@code
+{
+ Game game = Game.Instance;
+ Player? me;
+ Player? other;
+ List<string> errors = new();
+
+ [SupplyParameterFromQuery]      //Note(1) - Comes from the query string (url)
+ public string PlayerName { get; set; }
+
+ protected override void OnParametersSet()   //Note(2) 
+ {
+     if(game.PlayerOne?.Name == PlayerName)
+     {
+         me = game.PlayerOne;
+     }
+     else if(game.PlayerTwo?.Name == PlayerName)
+     {
+         me = game.PlayerTwo;
+     }
+     other = game.PlayerOne == me ? game.PlayerTwo : game.PlayerOne;
+     errors.Clear();
+ }      
+}

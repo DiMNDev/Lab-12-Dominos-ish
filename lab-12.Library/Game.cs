@@ -36,7 +36,7 @@ public class Game
         }
         GameStateChanged?.Invoke();
     }
-    public static Game Instance { get; set; }
+    public static Game Instance { get; set; } = new Game();
     public Player? PlayerOne { get; private set; }
     public Player? PlayerTwo { get; private set; }
     public List<Tile> Board { get; private set; }
