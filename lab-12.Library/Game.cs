@@ -79,4 +79,21 @@ public class Game
 
         GameStateChanged?.Invoke();
     }
+
+    public Player? Winner
+    {
+        get
+        {
+            if (!IsGameOver)
+            {
+                return null;
+            }
+            if (PlayerOne?.Tiles.Count() <= PlayerTwo?.Tiles.Count())
+            {
+                return PlayerOne;
+            }
+            return PlayerTwo;
+        }
+    }
 }
+
