@@ -1,0 +1,38 @@
+@page "/game/{GameName}"
+@using Library
+@using TheGame
+@using Lobby
+@inject NavigationManager navManager
+<PageTitle>@GameName | Dominos(ish)</PageTitle>
+
+<h1>Game Name: @GameName</h1>
+
+@if(game.PlayerTwo is null)
+{
+    <input @bind=newPlayerName placeholder="Your Name" />
+    <button @onclick=joinGame>Join Game</button>
+}
+else
+{
+    <p>Sorry, looks like the game is full</p>
+    <p>@game.PlayerOne.Name is already playing @game.PlayerTwo.Name</p>
+}
+
+@code {
+    string newPlayerName;
+    void joinGame()
+    {
+        game.Join(new Player(newPlayerName));
+        navManager.NavigateTo($"/play/{GameName}/?playerName={newPlayerName}");
+    }
+
+    [Parameter]
+    public string GameName{get;set;}
+    Game? game;
+
+    override protected void OnParametersSet()
+    {
+        game = Lobby.GetGame(GameName);
+        game.GameStateChanged += ()=> InvokeAsync(StateHasChanged);
+    }
+}
