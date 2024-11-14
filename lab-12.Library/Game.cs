@@ -52,7 +52,7 @@ public class Game
             return !player1CanPlay && !player2CanPlay;
         }
     }
-    public bool IsGameOver => NoOneCanPlay || PlayerOne?.Tiles.Count() == 0 || PlayerTwo?.Tiles.Count() == 0;
+    public bool IsGameOver => NoOneCanPlay || PlayerOne?.Tiles.Count == 0 || PlayerTwo?.Tiles.Count == 0;
 
     public bool IsPlayable => PlayerOne is not null && PlayerTwo is not null && IsGameOver is false;
     public void PlayTile(Player player, Tile tile)
@@ -88,7 +88,7 @@ public class Game
             {
                 return null;
             }
-            if (PlayerOne?.Tiles.Count() <= PlayerTwo?.Tiles.Count())
+            if (PlayerOne?.Tiles.Count <= PlayerTwo?.Tiles.Count)
             {
                 return PlayerOne;
             }
